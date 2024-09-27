@@ -14,6 +14,8 @@ export default function (Alpine) {
     loading: false
   })
 
+  const afterEach = []
+
   const route = {
     get path () {
       return state.path
@@ -51,6 +53,9 @@ export default function (Alpine) {
     },
     get notfound () {
       return router.notfound(getTargetURL(state.href))
+    },
+    afterEach (callback) {
+      afterEach.push(callback)
     }
   }
 
@@ -149,7 +154,10 @@ export default function (Alpine) {
           delete el._x_currentIfEl
         }
 
-        Alpine.nextTick(() => inMakeProgress.delete(expression))
+        Alpine.nextTick(() => {
+          make()
+          afterEach.forEach(callback => callback())
+        })
       }
 
       if (el.content.firstElementChild) {
