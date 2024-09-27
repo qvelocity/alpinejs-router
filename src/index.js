@@ -14,7 +14,7 @@ export default function (Alpine) {
     loading: false
   })
 
-  const afterEach = []
+  const afterEachHooks = []
 
   const route = {
     get path () {
@@ -55,7 +55,7 @@ export default function (Alpine) {
       return router.notfound(getTargetURL(state.href))
     },
     afterEach (callback) {
-      afterEach.push(callback)
+      afterEachHooks.push(callback)
     }
   }
 
@@ -156,7 +156,7 @@ export default function (Alpine) {
 
         Alpine.nextTick(() => {
           make()
-          afterEach.forEach(callback => callback())
+          afterEachHooks.forEach(callback => callback())
         })
       }
 
