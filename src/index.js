@@ -155,7 +155,7 @@ export default function (Alpine) {
         }
 
         Alpine.nextTick(() => {
-          make()
+          inMakeProgress.delete(expression);
           afterEachHooks.forEach(callback => callback())
         })
       }
